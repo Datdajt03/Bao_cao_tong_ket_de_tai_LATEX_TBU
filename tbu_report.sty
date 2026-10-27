@@ -1,0 +1,434 @@
+% ==============================================================================
+% tbu_report.sty - LaTeX Style Package cho Báo cáo / Khóa luận Trường ĐH Tây Bắc (TBU)
+% Chuẩn hóa theo mẫu Báo cáo tổng kết Đề tài NCKH Sinh viên (Bia_mau.pdf)
+% Phiên bản: 2.2 (2026)
+% ==============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tbu_report}[2026/10/27 TBU Report Style Package v2.2]
+
+% --- Các gói phụ thuộc cơ bản ---
+\RequirePackage[utf8]{vietnam}
+\RequirePackage{times}            % Phông chữ Times New Roman chuẩn
+\RequirePackage[a4paper, top=20mm, bottom=20mm, left=30mm, right=15mm, footskip=8mm]{geometry}
+\RequirePackage{setspace}         % Giãn dòng
+\RequirePackage{graphicx}         % Chèn hình ảnh
+\RequirePackage{tikz}             % Vẽ khung bìa
+\usetikzlibrary{calc}
+\RequirePackage{titlesec}         % Định dạng tiêu đề chương/mục
+\RequirePackage{caption}          % Định dạng chú thích hình/bảng
+\RequirePackage{fancyhdr}         % Định dạng trang header/footer
+\RequirePackage{tocloft}          % Định dạng mục lục
+\RequirePackage{array}            % Định dạng bảng
+\RequirePackage{longtable}        % Bảng nhiều trang
+\RequirePackage{booktabs}         % Đường kẻ bảng
+\RequirePackage{enumitem}         % Danh sách liệt kê
+\RequirePackage{indentfirst}      % Thụt đầu dòng đoạn văn đầu tiên
+\RequirePackage{xparse}           % Hỗ trợ định nghĩa lệnh linh hoạt
+\RequirePackage{etoolbox}         % Xử lý macro và danh sách sinh viên
+\RequirePackage[hidelinks, unicode, pdfencoding=auto]{hyperref} % Liên kết PDF
+
+% --- Cấu hình giãn dòng và khoảng cách đoạn ---
+\setstretch{1.3}                 % Giãn dòng 1.3 chuẩn báo cáo
+\setlength{\parindent}{1.0cm}     % Thụt đầu dòng 1cm
+\setlength{\parskip}{3pt}         % Khoảng cách giữa các đoạn văn 3pt
+
+% --- Cấu hình chú thích Hình ảnh và Bảng biểu ---
+\captionsetup[figure]{name={Hình}, labelsep=colon, labelfont=bf, font=small, justification=centering}
+\captionsetup[table]{name={Bảng}, labelsep=period, labelfont=bf, font=small, position=top, skip=6pt}
+
+% --- Định dạng Trang Header / Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage} % Số trang ở chính giữa phía dưới
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% --- Cấu hình Định dạng Tiêu đề Đồng bộ 12pt (Titlesec) ---
+\titleformat{\chapter}[block]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries\raggedright}
+  {\ifnum\c@secnumdepth >\m@ne CHƯƠNG \thechapter.\quad\fi}
+  {0pt}
+  {\fontsize{12pt}{14pt}\selectfont\bfseries}
+
+\titlespacing*{\chapter}{0pt}{-24pt}{4pt}
+
+\titleformat{\section}[block]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+  {\thesection.}
+  {0.5em}
+  {}
+
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+
+\titleformat{\subsection}[block]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+  {\thesubsection.}
+  {0.5em}
+  {}
+
+\titlespacing*{\subsection}{0pt}{3pt}{2pt}
+
+\titleformat{\subsubsection}[block]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries\itshape}
+  {\thesubsubsection.}
+  {0.5em}
+  {}
+
+\titlespacing*{\subsubsection}{0pt}{2pt}{1pt}
+
+% --- Định dạng phông chữ và căn giữa cho Mục lục (tocloft) ---
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{12pt}
+\setlength{\cftbeforechapskip}{4pt}
+\setlength{\cftbeforesecskip}{1pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+
+\renewcommand{\cfttoctitlefont}{\hfill\fontsize{14pt}{16pt}\selectfont\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftchapfont}{\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+\renewcommand{\cftchappagefont}{\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+\renewcommand{\cftsecfont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cftsecpagefont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cftsubsecfont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftsecdotsep}}
+
+% --- Cấu hình Danh mục Hình ảnh & Danh mục Bảng biểu (tocloft) ---
+\renewcommand{\cftloftitlefont}{\hfill\fontsize{14pt}{16pt}\selectfont\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\fontsize{14pt}{16pt}\selectfont\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill}
+\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftafterloftitleskip}{12pt}
+\setlength{\cftbeforelottitleskip}{0pt}
+\setlength{\cftafterlottitleskip}{12pt}
+
+\renewcommand{\cftfigfont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cftfigpagefont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cfttabfont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\cfttabpagefont}{\normalfont\fontsize{12pt}{14pt}\selectfont}
+
+\renewcommand{\cftfigpresnum}{Hình }
+\renewcommand{\cfttabpresnum}{Bảng }
+\settowidth{\cftfignumwidth}{Hình 9.9:\ }
+\settowidth{\cfttabnumwidth}{Bảng 9.9:\ }
+\renewcommand{\cftfigaftersnum}{:}
+\renewcommand{\cfttabaftersnum}{.}
+
+% --- Khai báo biến thông tin Báo cáo ---
+\newcommand{\tbu@ministry}{BỘ GIÁO DỤC VÀ ĐÀO TẠO}
+\newcommand{\tbu@university}{TRƯỜNG ĐẠI HỌC TÂY BẮC}
+\newcommand{\tbu@faculty}{Khoa Công nghệ Thông tin}
+\newcommand{\tbu@reporttype}{BÁO CÁO TỔNG KẾT}
+\newcommand{\tbu@reportsubtype}{ĐỀ TÀI NGHIÊN CỨU KHOA HỌC CỦA SINH VIÊN}
+\newcommand{\tbu@title}{TÊN ĐỀ TÀI BÁO CÁO}
+\newcommand{\tbu@subtitle}{}
+\newcommand{\tbu@scientificfield}{Công nghệ Thông tin}
+\newcommand{\tbu@courseclass}{K64 ĐẠI HỌC CNTT}
+\newcommand{\tbu@academicyear}{3/Số năm đào tạo: 4}
+\newcommand{\tbu@major}{Công nghệ Thông tin}
+\newcommand{\tbu@leadstudent}{}
+\newcommand{\tbu@groupnumber}{}
+\newcommand{\tbu@advisor}{TS. Phạm Quốc Thắng}
+\newcommand{\tbu@location}{Sơn La}
+\newcommand{\tbu@reportdate}{tháng 5 năm 2026}
+\newcommand{\tbu@logo}{tbu_logo.png}
+
+\newcommand{\ministry}[1]{\renewcommand{\tbu@ministry}{#1}}
+\newcommand{\university}[1]{\renewcommand{\tbu@university}{#1}}
+\newcommand{\faculty}[1]{\renewcommand{\tbu@faculty}{#1}}
+\newcommand{\reporttype}[1]{\renewcommand{\tbu@reporttype}{#1}}
+\newcommand{\reportsubtype}[1]{\renewcommand{\tbu@reportsubtype}{#1}}
+\renewcommand{\title}[1]{\renewcommand{\tbu@title}{#1}}
+\newcommand{\subtitle}[1]{\renewcommand{\tbu@subtitle}{#1}}
+\newcommand{\scientificfield}[1]{\renewcommand{\tbu@scientificfield}{#1}}
+\newcommand{\courseclass}[1]{\renewcommand{\tbu@courseclass}{#1}}
+\newcommand{\academicyear}[1]{\renewcommand{\tbu@academicyear}{#1}}
+\newcommand{\major}[1]{\renewcommand{\tbu@major}{#1}}
+\newcommand{\leadstudent}[1]{\renewcommand{\tbu@leadstudent}{#1}}
+\newcommand{\groupnumber}[1]{\renewcommand{\tbu@groupnumber}{#1}}
+\newcommand{\advisor}[1]{\renewcommand{\tbu@advisor}{#1}}
+\newcommand{\location}[1]{\renewcommand{\tbu@location}{#1}}
+\newcommand{\reportdate}[1]{\renewcommand{\tbu@reportdate}{#1}}
+\newcommand{\logopath}[1]{\renewcommand{\tbu@logo}{#1}}
+
+% --- Quản lý Danh sách Sinh viên thực hiện ---
+\newcounter{studentcount}
+\setcounter{studentcount}{0}
+
+\NewDocumentCommand{\addstudent}{ m G{} G{} }{%
+  \stepcounter{studentcount}%
+  \csdef{student@name@\thestudentcount}{#1}%
+  \csdef{student@gender@\thestudentcount}{#2}%
+  \csdef{student@ethnic@\thestudentcount}{#3}%
+}
+
+\newcommand{\addmember}[2]{\addstudent{#1}{}{}}
+\newcommand{\clearcontentmembers}{%
+  \setcounter{studentcount}{0}%
+}
+
+\newcounter{tbu@loopi}
+\newcommand{\tbu@renderstudentitem}[1]{%
+  \csuse{student@name@#1} &
+  \ifcsvoid{student@gender@#1}{}{Nam, Nữ: \csuse{student@gender@#1}} &
+  \ifcsvoid{student@ethnic@#1}{}{Dân tộc: \csuse{student@ethnic@#1}} \\
+}
+
+\newcommand{\renderstudentlist}{%
+  \setcounter{tbu@loopi}{1}%
+  \whiledo{\value{tbu@loopi} < \numexpr\value{studentcount}+1\relax}{%
+    \expandafter\tbu@renderstudentitem\expandafter{\the\value{tbu@loopi}}%
+    \stepcounter{tbu@loopi}%
+  }%
+}
+
+% --- Khung bìa TikZ (Khung đôi nét đậm bên ngoài, nét mảnh bên trong chuẩn Bia_mau.pdf) ---
+\newcommand{\drawcoverborder}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    % Khung ngoài (nét đậm 2.0pt)
+    \draw[line width=2.0pt] 
+      ($(current page.north west) + (2.5cm,-1.5cm)$) 
+      rectangle 
+      ($(current page.south east) + (-1.2cm,1.5cm)$);
+    % Khung trong (nét mảnh 0.7pt)
+    \draw[line width=0.7pt] 
+      ($(current page.north west) + (2.62cm,-1.62cm)$) 
+      rectangle 
+      ($(current page.south east) + (-1.32cm,1.62cm)$);
+  \end{tikzpicture}%
+}
+
+% --- Lệnh tạo TRANG BÌA CHÍNH (Bìa ngoài - Page 1) ---
+\newcommand{\makeoutercover}{%
+  \begin{titlepage}
+    \drawcoverborder
+    \centering
+    \setstretch{1.2}
+    
+    % Bộ & Trường
+    {\fontsize{13pt}{16pt}\selectfont \tbu@ministry \par}
+    \vspace{4pt}
+    {\fontsize{14pt}{17pt}\selectfont \textbf{\tbu@university} \par}
+    
+    \vspace{1.2cm}
+    
+    % Logo trường
+    \IfFileExists{\tbu@logo}{%
+      \includegraphics[width=3.2cm, height=3.2cm, keepaspectratio]{\tbu@logo}\par
+    }{%
+      \vspace{3.2cm}
+    }
+    
+    \vspace{1.2cm}
+    
+    % Loại báo cáo
+    {\fontsize{14pt}{18pt}\selectfont \textbf{\tbu@reporttype} \par}
+    \ifx\tbu@reportsubtype\@empty \else
+      \vspace{4pt}
+      {\fontsize{14pt}{18pt}\selectfont \textbf{\tbu@reportsubtype} \par}
+    \fi
+    
+    \vspace{1.0cm}
+    
+    % Tên đề tài
+    {\fontsize{15pt}{21pt}\selectfont \textbf{\MakeUppercase{\tbu@title}} \par}
+    \ifx\tbu@subtitle\@empty \else
+      \vspace{0.3cm}
+      {\fontsize{13pt}{16pt}\selectfont \textit{\tbu@subtitle} \par}
+    \fi
+    
+    \vspace{1.5cm}
+    
+    % Nhóm ngành khoa học
+    \ifx\tbu@scientificfield\@empty \else
+      {\fontsize{13pt}{16pt}\selectfont \textbf{Thuộc nhóm ngành khoa học: \tbu@scientificfield} \par}
+    \fi
+    
+    \vfill
+    
+    % Địa điểm & Thời gian
+    {\fontsize{13pt}{16pt}\selectfont \textbf{\tbu@location, \tbu@reportdate} \par}
+    \vspace{0.8cm}
+    
+  \end{titlepage}
+  \clearpage
+}
+
+% --- Lệnh tạo TRANG BÌA PHỤ (Page 2) ---
+\newcommand{\makeinnercover}{%
+  \begin{titlepage}
+    \drawcoverborder
+    \setstretch{1.12}
+    
+    \begin{center}
+      % Bộ & Trường
+      {\fontsize{13pt}{16pt}\selectfont \tbu@ministry \par}
+      \vspace{3pt}
+      {\fontsize{14pt}{17pt}\selectfont \textbf{\tbu@university} \par}
+      
+      \vspace{1.0cm}
+      
+      % Loại báo cáo
+      {\fontsize{14pt}{18pt}\selectfont \textbf{\tbu@reporttype} \par}
+      \ifx\tbu@reportsubtype\@empty \else
+        \vspace{3pt}
+        {\fontsize{14pt}{18pt}\selectfont \textbf{\tbu@reportsubtype} \par}
+      \fi
+      
+      \vspace{0.5cm}
+      
+      % Tên đề tài
+      {\fontsize{14pt}{19pt}\selectfont \textbf{\MakeUppercase{\tbu@title}} \par}
+      \ifx\tbu@subtitle\@empty \else
+        \vspace{0.2cm}
+        {\fontsize{12pt}{15pt}\selectfont \textit{\tbu@subtitle} \par}
+      \fi
+      
+      \vspace{0.6cm}
+      
+      % Nhóm ngành khoa học
+      \ifx\tbu@scientificfield\@empty \else
+        {\fontsize{12.5pt}{15pt}\selectfont \textbf{Thuộc nhóm ngành khoa học: \tbu@scientificfield} \par}
+      \fi
+    \end{center}
+    
+    \vspace{0.6cm}
+    
+    \begin{flushleft}
+      \setstretch{1.15}
+      {\fontsize{11.5pt}{14.5pt}\selectfont
+        \noindent Sinh viên thực hiện:\par
+        \vspace{0.12cm}
+        \noindent\hspace*{1.0cm}%
+        \begin{tabular}{@{} p{5.5cm} p{2.8cm} p{2.8cm} @{}}
+          \renderstudentlist
+        \end{tabular}\par
+        \vspace{0.25cm}
+        \noindent Lớp: \tbu@courseclass\par\vspace{2pt}
+        \noindent Khoa: \tbu@faculty\par\vspace{2pt}
+        \noindent Năm thứ: \tbu@academicyear\par\vspace{2pt}
+        \noindent Ngành học: \tbu@major\par\vspace{2pt}
+        \noindent Sinh viên chịu trách nhiệm chính: \textbf{\ifx\tbu@leadstudent\@empty \csuse{student@name@1}\else \tbu@leadstudent\fi}\par\vspace{2pt}
+        \noindent Người hướng dẫn: \textbf{\tbu@advisor}\par
+      }
+    \end{flushleft}
+    
+    \vfill
+    
+    \begin{center}
+      {\fontsize{13pt}{16pt}\selectfont \textbf{\tbu@location, \tbu@reportdate} \par}
+      \vspace{0.6cm}
+    \end{center}
+    
+  \end{titlepage}
+  \clearpage
+}
+
+% --- Môi trường LỜI CAM ĐOAN ---
+\newenvironment{pledge}{%
+  \cleardoublepage
+  \thispagestyle{plain}
+  \begin{center}
+    {\fontsize{14pt}{18pt}\selectfont \textbf{LỜI CAM ĐOAN}\par}
+  \end{center}
+  \vspace{0.6cm}
+  \setstretch{1.3}
+  \fontsize{12pt}{16pt}\selectfont
+}{%
+  \par\vspace{1.0cm}
+  \begin{flushright}
+    \textit{Nhóm tác giả.}\hspace*{1.0cm}
+  \end{flushright}
+  \cleardoublepage
+}
+
+% --- Môi trường LỜI CẢM ƠN ---
+\newenvironment{acknowledgements}{%
+  \cleardoublepage
+  \thispagestyle{plain}
+  \begin{center}
+    {\fontsize{14pt}{18pt}\selectfont \textbf{LỜI CẢM ƠN}\par}
+  \end{center}
+  \vspace{0.6cm}
+  \setstretch{1.3}
+  \fontsize{12pt}{16pt}\selectfont
+}{%
+  \par\vspace{1.0cm}
+  \begin{flushright}
+    \textit{Nhóm tác giả.}\hspace*{1.0cm}
+  \end{flushright}
+  \cleardoublepage
+}
+
+% --- Môi trường DANH MỤC TỪ VIẾT TẮT ---
+\newenvironment{abbreviations}{%
+  \cleardoublepage
+  \thispagestyle{plain}
+  \begin{center}
+    {\fontsize{14pt}{18pt}\selectfont \textbf{DANH MỤC TỪ VIẾT TẮT}\par}
+  \end{center}
+  \vspace{0.5cm}
+  \setstretch{1.3}
+  \fontsize{12pt}{15pt}\selectfont
+  \begin{longtable}{|c|p{11.5cm}|}
+    \hline
+    \textbf{Từ viết tắt} & \centering\arraybackslash \textbf{Viết đầy đủ} \\ \hline
+    \endfirsthead
+    \hline
+    \textbf{Từ viết tắt} & \centering\arraybackslash \textbf{Viết đầy đủ} \\ \hline
+    \endhead
+}{%
+  \end{longtable}
+  \cleardoublepage
+}
+
+% --- Lệnh tạo Mục lục và các Danh mục chuẩn ---
+\AtBeginDocument{%
+  \renewcommand{\contentsname}{MỤC LỤC}%
+  \renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}%
+  \renewcommand{\listtablename}{DANH MỤC BẢNG BIỂU}%
+}
+
+\newcommand{\makecontentlists}{%
+  \cleardoublepage
+  \thispagestyle{plain}
+  \tableofcontents
+  \cleardoublepage
+}
+
+\newcommand{\makelistoffigures}{%
+  \cleardoublepage
+  \thispagestyle{plain}
+  \listoffigures
+  \cleardoublepage
+}
+
+\newcommand{\makelistoftables}{%
+  \cleardoublepage
+  \thispagestyle{plain}
+  \listoftables
+  \cleardoublepage
+}
+
+% --- Lệnh tạo Chương không đánh số (Mở đầu, Kết luận...) ---
+\newcommand{\unchapter}[1]{%
+  \cleardoublepage
+  \chapter*{#1}%
+  \addcontentsline{toc}{chapter}{#1}%
+}
+
+% --- Lệnh tạo Mục trong Chương không đánh số (dùng cho MỞ ĐẦU: 1.1, 1.2...) ---
+\newcommand{\unsection}[2]{%
+  \section*{#1. #2}%
+  \addcontentsline{toc}{section}{#1. #2}%
+}
+
+\endinput

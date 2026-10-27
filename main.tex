@@ -1,0 +1,51 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{tbu_report}
+
+% ==============================================================================
+% NẠP THÔNG TIN BÁO CÁO (Chỉnh sửa thông tin tại file thongtinbia.tex)
+% ==============================================================================
+\input{thongtinbia.tex}
+
+\begin{document}
+
+% ==============================================================================
+% 1. TRANG BÌA CHÍNH (BÌA NGOÀI) VÀ TRANG BÌA PHỤ
+% ==============================================================================
+\makeoutercover
+\makeinnercover
+
+% ==============================================================================
+% 2. LỜI CAM ĐOAN VÀ LỜI CẢM ƠN
+% ==============================================================================
+\cleardoublepage
+\pagenumbering{roman}
+\input{Gioithieu_danhmuc/loicamdoan.tex}
+\input{Gioithieu_danhmuc/loicamon.tex}
+
+% ==============================================================================
+% 3. MỤC LỤC VÀ CÁC DANH MỤC (HÌNH ẢNH, BẢNG BIỂU, TỪ VIẾT TẮT)
+% ==============================================================================
+\makecontentlists
+\makelistoffigures
+\makelistoftables
+\input{Gioithieu_danhmuc/tuviettat.tex}
+
+% ==============================================================================
+% 4. NỘI DUNG CHÍNH CỦA BÁO CÁO
+% ==============================================================================
+\cleardoublepage
+\pagenumbering{arabic}
+
+\input{Noidungbaocao/modau.tex}
+\input{Noidungbaocao/chuong1.tex}
+\input{Noidungbaocao/chuong2.tex}
+\input{Noidungbaocao/chuong3.tex}
+\input{Noidungbaocao/ketluan.tex}
+
+% ==============================================================================
+% 5. TÀI LIỆU THAM KHẢO
+% ==============================================================================
+\cleardoublepage
+\input{tailieuthamkhao.bib}
+
+\end{document}
